@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>URL Shortener</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+  }
+  h1 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  form {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+  }
+  input[type="url"] {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    transition: border-color 0.2s ease;
+  }
+  input[type="url"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+  #result {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  #result a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  #result a:hover {
+    text-decoration: underline;
+  }
+  #error {
+    margin-top: 20px;
+    color: red;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<h1>Simple URL Shortener</h1>
+
+<form id="urlForm">
+  <input type="url" id="originalUrl" placeholder="Enter the long URL" required />
+  <button type="submit">Shorten URL</button>
+</form>
+
+<div id="result"></div>
+<div id="error"></div>
+
+<script>
+  const form = document.getElementById('urlForm');
+  const resultDiv = document.getElementById('result');
+  const errorDiv = document.getElementById('error');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // prevent form default submit
+
+    resultDiv.textContent = '';
+    errorDiv.textContent = '';
+
+    const url = document.getElementById('originalUrl').value.trim();
+
+    if (!url) {
+      errorDiv.textContent = 'Please enter a valid URL.';
+      return;
+    }
+
+    try {
+      const response = await fetch('/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        resultDiv.innerHTML = `Short URL: <a href="${data.short_url}" target="_blank" rel="noopener">${data.short_url}</a>`;
+      } else {
+        errorDiv.textContent = data.error || 'An error occurred.';
+      }
+    } catch (err) {
+      errorDiv.textContent = 'Failed to reach the server.';
+    }
+  });
+</script>
+
+</body>
+</html>
