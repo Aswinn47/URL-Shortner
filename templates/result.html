@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shortened URL</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="container">
+    <h2>URL Shortened</h2>
+    <p><strong>Short URL:</strong> <a href="{{ short_url }}" target="_blank">{{ short_url }}</a></p>
+
+    <!-- Make "Shorten Another" a separate button on its own line -->
+    <div style="margin-top: 20px;">
+      <a href="{{ url_for('index') }}">
+        <button type="button">Shorten Another</button>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
