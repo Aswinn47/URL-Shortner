@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Shortener</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Welcome, {{ current_user.name }}</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <label for="original_url">Enter URL:</label>
+      <input type="url" name="original_url" placeholder="Paste your long URL" required>
+      <button type="submit">Shorten</button>
+    </form>
+
+    <br>
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+  </div>
+
+</body>
+</html>
