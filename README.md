@@ -1,4 +1,4 @@
-🔗 URL Shortener Web App
+# 🔗 URL Shortener Web App
 This is a simple and secure URL Shortener built with Python Flask. It allows users to register, log in, and shorten long URLs into compact, shareable links. Each shortened URL is tied to a registered user, and users can safely shorten and manage their links within their account.
 
 ✨ Features
